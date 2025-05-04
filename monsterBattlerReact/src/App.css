@@ -1,9 +1,13 @@
-#root {
-  max-width: 1500px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: black;
 }
+#root {
+  min-height: 100vh; /* Ensures full viewport height */
+  background-color: black; /* Double coverage */
+}
+
 
 .App{
   display: grid;
@@ -26,9 +30,9 @@
 
 .pageContainer{
   padding: 20px;
-  background-color: #ff9090;
+  background: linear-gradient(to bottom, #008787, #0f894e);
   border-radius: 10px;
-  max-width: fit-content;
+  max-width: 90%;
   margin: 20px auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
