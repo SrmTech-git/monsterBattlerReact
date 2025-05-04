@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function HomePage() {
     return (
-        <div>
+        <div className='pageContainer'>
             <h1>Welcome to Monster Battler</h1>
             <p>Choose your path:</p>
             <nav>

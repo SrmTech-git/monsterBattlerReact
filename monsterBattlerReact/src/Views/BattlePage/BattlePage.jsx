@@ -1,7 +1,7 @@
 
 function BattlePage() {
   return (
-    <div>
+    <div className='pageContainer'>
       <h1>Battle Page</h1>
       <p>This is the battle page.</p>
     </div>

@@ -1,0 +1,13 @@
+.monsterPage{
+    max-width: 90%;
+   
+    
+}
+
+.monsterList{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
