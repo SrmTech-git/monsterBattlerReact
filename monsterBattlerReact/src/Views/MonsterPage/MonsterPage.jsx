@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styles from './MonsterPage.module.css'; 
 import axios from 'axios';
 import MonsterDisplay from '../../Components/MonsterDisplay/MonsterDisplay';
-import CreateMonster from '../../Components/CreateMonster/CreateMonster';
 
 function MonsterPage() {
     const [teamMonsters, setTeamMonsters] = useState([]);
@@ -72,10 +71,6 @@ function MonsterPage() {
             setSaveSuccess(true);
             setSaveError('');
             
-            // Optional: Clear the form after successful save
-            // setTeamName('');
-            // setTeamMonsters([]);
-            
         } catch (error) {
             console.error("Error saving team:", error);
             setSaveError('Failed to save team. Please try again.');
@@ -91,9 +86,7 @@ function MonsterPage() {
     }
 
     return (
-        <>
         <div className={styles.pageContainer}>
-
             <div className={styles.teamMonstersContainer}>
                 <h1>Your Monster Team</h1>
                 
@@ -150,11 +143,6 @@ function MonsterPage() {
                 )}
             </div>
 
-            <div className={styles.createMonsterContainer}>
-                <h1>Create your monster</h1>
-                <CreateMonster />   
-            </div>
-
             <div className={styles.monsterListContainer}>
                 <h1>Pick your monster</h1>
                 {allMonsters.length > 0 ? (
@@ -178,7 +166,6 @@ function MonsterPage() {
                 </Link>
             </div>
         </div>
-        </>
     );
 }
 

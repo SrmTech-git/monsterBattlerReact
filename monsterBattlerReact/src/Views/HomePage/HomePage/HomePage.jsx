@@ -1,26 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './HomePage.module.css';
 
 function HomePage() {
     return (
-        <div className='pageContainer'>
+        <div className={styles.pageContainer}>
             <h1>Welcome to Monster Battler</h1>
             <p>Choose your path:</p>
-            <nav>
-                <div>
-                <Link to="/monsters" >Pick your Monster team</Link>
+            <nav className={styles.nav}>
+                <div className={styles.navItem}>
+                    <Link to="/create" className={styles.navLink}>
+                        <span className={styles.createIcon}>✨</span>
+                        Create a monster
+                    </Link>
                 </div>
-
-                <div>       
-                <Link to="/battle" >Random Battle</Link>
+                <div className={styles.navItem}>
+                    <Link to="/monsters" className={styles.navLink}>
+                        <span className={styles.teamIcon}>👥</span>
+                        Pick your Monster team
+                    </Link>
                 </div>
-
-                <div>
-                <Link to="/about" >About</Link>
+                <div className={styles.navItem}>
+                    <Link to="/battle" className={styles.navLink}>
+                        <span className={styles.battleIcon}>⚔️</span>
+                        Random Battle
+                    </Link>
+                </div>
+                <div className={styles.navItem}>
+                    <Link to="/about" className={styles.navLink}>
+                        <span className={styles.aboutIcon}>ℹ️</span>
+                        About
+                    </Link>
                 </div>
             </nav>
         </div>
     );
-};
+}
 
 export default HomePage;

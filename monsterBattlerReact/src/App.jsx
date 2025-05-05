@@ -7,6 +7,7 @@ import Footer from './Components/Footer/Footer'
 import MainNav from './Components/MainNav/MainNav'
 import BattlePage from './Views/BattlePage/BattlePage'
 import MonsterPage from './Views/MonsterPage/MonsterPage'
+import CreateMonster from './Components/CreateMonster/CreateMonster'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -25,6 +26,7 @@ function App() {
         <Routes>
 
           <Route path='/' element={<HomePage />} />
+          <Route path='/create' element={<CreateMonster/>} />
           <Route path='/battle' element={<BattlePage/>} />
           <Route path='/monsters' element={<MonsterPage/>} />
         </Routes>
