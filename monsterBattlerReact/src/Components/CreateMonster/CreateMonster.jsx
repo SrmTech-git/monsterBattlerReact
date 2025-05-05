@@ -12,6 +12,7 @@ function CreateMonster() {
     const [rangedDefense, setRangedDefense] = useState(100);
     const [speed, setSpeed] = useState(100);
     const [formData, setFormData] = useState(null);
+    const [notification, setNotification] = useState({ show: false, message: "", type: "" });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,14 +32,39 @@ function CreateMonster() {
         try {
             const response = await axios.post("http://localhost:8080/monsters/create", payload);
             console.log("Monster created successfully:", response.data);
+            // Show success notification
+            setNotification({
+                show: true,
+                message: `Monster ${name} was created successfully!`,
+                type: "success"
+            });
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                setNotification({ show: false, message: "", type: "" });
+            }, 3000);
         } catch (error) {
             console.error("Error creating monster:", error);
+            // Show error notification
+            setNotification({
+                show: true,
+                message: `Error creating monster: ${error.response?.data?.message || error.message}`,
+                type: "error"
+            });
+            
+            // Hide notification after 5 seconds
+            setTimeout(() => {
+                setNotification({ show: false, message: "", type: "" });
+            }, 5000);
         }
     };
 
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Create Monster</h1>
+            
+           
+            
             <div className={styles.previewContainer}>
                 <h3 className={styles.previewTitle}>Preview Data:</h3>
                 <pre className={styles.preview}>
@@ -53,6 +79,7 @@ function CreateMonster() {
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        required
                     />
                 </div>  
 
@@ -121,6 +148,13 @@ function CreateMonster() {
                     />
                 </div>
                 <button type="submit" className={styles.button}>Create Monster</button>
+
+                 {/* Notification component */}
+                    {notification.show && (
+                        <div className={`${styles.notification} ${styles[notification.type]}`}>
+                            {notification.message}
+                        </div>
+                    )}
             </form>
         </div>
     );

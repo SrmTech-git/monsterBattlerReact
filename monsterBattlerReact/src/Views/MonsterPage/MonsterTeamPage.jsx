@@ -149,7 +149,7 @@ function MonsterPage() {
                     <div className={styles.monsterList}>
                         {allMonsters.map((monster, index) => (
                             <div key={index}>
-                                <MonsterDisplay monster={monster} handleMonsterClick={handleMonsterClick} canChoose={true} />
+                                <MonsterDisplay teamMonsters ={teamMonsters} monster={monster} handleMonsterClick={handleMonsterClick} canChoose={true} />
                             </div>
                         ))}
                     </div>

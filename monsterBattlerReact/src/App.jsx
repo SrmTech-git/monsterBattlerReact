@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Footer from './Components/Footer/Footer'
 import MainNav from './Components/MainNav/MainNav'
 import BattlePage from './Views/BattlePage/BattlePage'
-import MonsterPage from './Views/MonsterPage/MonsterPage'
+import MonsterPage from './Views/MonsterPage/MonsterTeamPage'
 import CreateMonster from './Components/CreateMonster/CreateMonster'
 
 function App() {
