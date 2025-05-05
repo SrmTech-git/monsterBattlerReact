@@ -28,9 +28,10 @@ function MonsterDisplay({ monster, handleMonsterClick, canChoose }) {
 
                 <pre className={styles.stat}> {JSON.stringify(monster, null, 2)} </pre>
 
+                <button className={styles.button} onClick={handleClick}>Choose</button>
             </div>
 
-                <button className={styles.button} onClick={handleClick}>Choose</button>
+                
             </>
         );
     } else{

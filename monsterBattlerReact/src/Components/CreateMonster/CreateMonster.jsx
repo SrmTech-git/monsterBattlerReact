@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import styles from "./CreateMonster.module.css";
 
 function CreateMonster() {
     const [name, setName] = useState("");
@@ -36,80 +37,92 @@ function CreateMonster() {
     };
 
     return (
-        <>
-        <div>
-            <p>{formData ? JSON.stringify(formData, null, 2) : "No data submitted yet"}</p>
+        <div className={styles.container}>
+            <h1 className={styles.title}>Create Monster</h1>
+            <div className={styles.previewContainer}>
+                <h3 className={styles.previewTitle}>Preview Data:</h3>
+                <pre className={styles.preview}>
+                    {formData ? JSON.stringify(formData, null, 2) : "No data submitted yet"}
+                </pre>
+            </div>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Name:</label>
+                    <input
+                        className={styles.input}
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </div>  
+
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Level:</label>
+                    <input
+                        className={styles.input}
+                        type="number"
+                        value={level}
+                        onChange={(e) => setLevel(Number(e.target.value))}          
+                    />
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Health:</label>
+                    <input
+                        className={styles.input}
+                        type="number"
+                        value={health}
+                        onChange={(e) => setHealth(Number(e.target.value))}
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Physical Attack:</label>
+                    <input
+                        className={styles.input}
+                        type="number"
+                        value={physicalAttack}
+                        onChange={(e) => setPhysicalAttack(Number(e.target.value))}
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Ranged Attack:</label>
+                    <input
+                        className={styles.input}
+                        type="number"
+                        value={rangedAttack}
+                        onChange={(e) => setRangedAttack(Number(e.target.value))}
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Physical Defense:</label>
+                    <input
+                        className={styles.input}
+                        type="number"
+                        value={physicalDefense}
+                        onChange={(e) => setPhysicalDefense(Number(e.target.value))}
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Ranged Defense:</label>
+                    <input
+                        className={styles.input}
+                        type="number"
+                        value={rangedDefense}
+                        onChange={(e) => setRangedDefense(Number(e.target.value))}
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Speed:</label>
+                    <input
+                        className={styles.input}
+                        type="number"
+                        value={speed}
+                        onChange={(e) => setSpeed(Number(e.target.value))}
+                    />
+                </div>
+                <button type="submit" className={styles.button}>Create Monster</button>
+            </form>
         </div>
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Name:</label>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-            </div>  
-
-            <div>
-                <label>Level:</label>
-                <input
-                    type="number"
-                    value={level}
-                    onChange={(e) => setLevel(Number(e.target.value))}          
-                />
-            </div>
-
-            <div>
-                <label>Health:</label>
-                <input
-                    type="number"
-                    value={health}
-                    onChange={(e) => setHealth(Number(e.target.value))}
-                />
-            </div>
-            <div>
-                <label>Physical Attack:</label>
-                <input
-                    type="number"
-                    value={physicalAttack}
-                    onChange={(e) => setPhysicalAttack(Number(e.target.value))}
-                />
-            </div>
-            <div>
-                <label>Ranged Attack:</label>
-                <input
-                    type="number"
-                    value={rangedAttack}
-                    onChange={(e) => setRangedAttack(Number(e.target.value))}
-                />
-            </div>
-            <div>
-                <label>Physical Defense:</label>
-                <input
-                    type="number"
-                    value={physicalDefense}
-                    onChange={(e) => setPhysicalDefense(Number(e.target.value))}
-                />
-            </div>
-            <div>
-                <label>Ranged Defense:</label>
-                <input
-                    type="number"
-                    value={rangedDefense}
-                    onChange={(e) => setRangedDefense(Number(e.target.value))}
-                />
-            </div>
-            <div>
-                <label>Speed:</label>
-                <input
-                    type="number"
-                    value={speed}
-                    onChange={(e) => setSpeed(Number(e.target.value))}
-                />
-            </div>
-            <button type="submit">Create Monster</button>
-        </form>
-        </>
     );
 }
 
