@@ -15,7 +15,13 @@ function HomePage() {
                     </Link>
                 </div>
                 <div className={styles.navItem}>
-                    <Link to="/monsters" className={styles.navLink}>
+                    <Link to="/create-custom" className={styles.navLink}>
+                        <span className={styles.createIcon}>✨</span>
+                        Create a Custom monster
+                    </Link>
+                </div>
+                <div className={styles.navItem}>
+                    <Link to="/team" className={styles.navLink}>
                         <span className={styles.teamIcon}>👥</span>
                         Pick your Monster team
                     </Link>

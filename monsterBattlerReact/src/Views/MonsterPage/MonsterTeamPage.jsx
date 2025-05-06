@@ -14,8 +14,8 @@ function MonsterPage() {
     useEffect(() => {
         const fetchAllMonsters = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/monsters');
-                setAllMonsters(response.data.slice(0, 10)); // This will take only the first 10 monsters
+                const response = await axios.get('http://localhost:8080/monsters/base');
+                setAllMonsters(response.data.slice(0, 25)); // This will take only the first 10 monsters
             } catch (error) {
                 console.error("Error fetching monsters:", error);
             }
@@ -26,7 +26,7 @@ function MonsterPage() {
 
     function handleMonsterClick(monster) {
         // Check if the monster is already in the team using filter
-        const existingMonsters = teamMonsters.filter(teamMonster => teamMonster.name === monster.name);
+        const existingMonsters = teamMonsters.filter(teamMonster => teamMonster.monsterId === monster.monsterId);
         
         if (existingMonsters.length > 0) {
           alert("This monster is already on your team.");

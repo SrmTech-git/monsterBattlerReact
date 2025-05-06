@@ -8,7 +8,7 @@ function MonsterDisplay({ teamMonsters = [], monster, handleMonsterClick, canCho
     const monstersList = teamMonsters || [];
     
     // Using .find() with the safe monstersList
-    const foundMonster = monstersList.find(m => m.name === monster.name);
+    const foundMonster = monstersList.find(m => m.monsterId === monster.monsterId);
     const isMonsterInTeam = foundMonster !== undefined;
 
     const handleClick = () => {
@@ -27,20 +27,48 @@ function MonsterDisplay({ teamMonsters = [], monster, handleMonsterClick, canCho
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.name}>{monster.name}</h1>
-            <p className={styles.stat}>Level: {monster.level}</p>
-            <p className={styles.stat}>startingHealth: {monster.startingHealth}</p>
-            <p className={styles.stat}>physicalAttack: {monster.physicalAttack}</p>
-            <p className={styles.stat}>rangedAttack: {monster.rangedAttack}</p>
-            <p className={styles.stat}>physicalDefense: {monster.physicalDefense}</p>
-            <p className={styles.stat}>rangedDefense: {monster.rangedDefense}</p>
-            <p className={styles.stat}>speed: {monster.speed}</p>
+            <h1 className={styles.name}>{monster.monsterId}</h1>
+            <div className={styles.imageContainer}>
+                {monster.base64Image ? (
+                    <img 
+                        className={styles.monsterImage} 
+                        src={monster.base64Image} 
+                        alt={monster.monsterId} 
+                    />
+                ) : (
+                    <p className={styles.noImage}>No image available</p>
+                )}
+            </div>
+            <p className={styles.stat}>Type 1: {monster.typeOne}</p>
+            <p className={styles.stat}>Health: {monster.baseStats.health}</p>
+            <p className={styles.stat}>physicalAttack: {monster.baseStats.physicalAttack}</p>
+            <p className={styles.stat}>rangedAttack: {monster.baseStats.rangedAttack}</p>
+            <p className={styles.stat}>physicalDefense: {monster.baseStats.physicalDefense}</p>
+            <p className={styles.stat}>rangedDefense: {monster.baseStats.rangedDefense}</p>
+            <p className={styles.stat}>speed: {monster.baseStats.speed}</p>
+
+            {/* {
+                "monsterId": "POWERGIRL",
+                "typeOne": "NORMAL",
+                "typeTwo": null,
+                "base64Image": null,
+                "baseStats": {
+                    "health": 100,
+                    "physicalAttack": 100,
+                    "rangedAttack": 100,
+                    "physicalDefense": 100,
+                    "rangedDefense": 100,
+                    "speed": 100
+                },
+                "abilityPool": null,
+                "movePool": null
+                } */}
             
             <pre className={styles.stat}>{JSON.stringify(monster, null, 2)}</pre>
             
             {canChoose && (
                 <button 
-                    className={isMonsterInTeam ? styles.buttonBlue : styles.buttonGreen} 
+                    className={isMonsterInTeam ? styles.buttonGreen : styles.buttonBlue} 
                     onClick={handleClick}
                 >
                     Choose

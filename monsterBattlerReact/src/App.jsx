@@ -8,6 +8,7 @@ import MainNav from './Components/MainNav/MainNav'
 import BattlePage from './Views/BattlePage/BattlePage'
 import MonsterPage from './Views/MonsterPage/MonsterTeamPage'
 import CreateMonster from './Components/CreateMonster/CreateMonster'
+import CreateCustomMonster from './Components/CreateCustomMonster/CreateCustomMonster'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -22,13 +23,16 @@ function App() {
         <MainNav />
       </div>
 
+
       <div className='app-main'>
         <Routes>
 
           <Route path='/' element={<HomePage />} />
           <Route path='/create' element={<CreateMonster/>} />
+          <Route path='/create-custom' element={<CreateCustomMonster/>} />
           <Route path='/battle' element={<BattlePage/>} />
-          <Route path='/monsters' element={<MonsterPage/>} />
+          <Route path='/team' element={<MonsterPage/>} />
+          
         </Routes>
       </div>
 

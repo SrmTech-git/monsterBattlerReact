@@ -3,39 +3,48 @@ import axios from "axios";
 import styles from "./CreateMonster.module.css";
 
 function CreateMonster() {
-    const [name, setName] = useState("");
-    const [level, setLevel] = useState(1);
+    const [monsterId, setMonsterId] = useState(""); 
+    const [typeOne, setTypeOne] = useState("NORMAL"); 
     const [health, setHealth] = useState(100);
     const [physicalAttack, setPhysicalAttack] = useState(100);
     const [rangedAttack, setRangedAttack] = useState(100);
     const [physicalDefense, setPhysicalDefense] = useState(100);
     const [rangedDefense, setRangedDefense] = useState(100);
     const [speed, setSpeed] = useState(100);
+    const [image, setImage] = useState("");
     const [formData, setFormData] = useState(null);
     const [notification, setNotification] = useState({ show: false, message: "", type: "" });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const payload = {
-            name,
-            level,
-            health,
-            physicalAttack,
-            rangedAttack,
-            physicalDefense,
-            rangedDefense,
-            speed,
-        };
         
+        
+        const payload = {
+            monsterId: monsterId,
+            typeOne: typeOne,
+            typeTwo: null,
+            base64Image: image,
+            baseStats: {
+                health: health,
+                physicalAttack: physicalAttack,
+                rangedAttack: rangedAttack,
+                physicalDefense: physicalDefense,
+                rangedDefense: rangedDefense,
+                speed: speed
+            },
+            abilityPool: null,
+            movePool: null
+        };
+
         setFormData(payload);
 
         try {
-            const response = await axios.post("http://localhost:8080/monsters/create", payload);
+            const response = await axios.post("http://localhost:8080/monsters/create/base", payload);
             console.log("Monster created successfully:", response.data);
             // Show success notification
             setNotification({
                 show: true,
-                message: `Monster ${name} was created successfully!`,
+                message: `Monster ${monsterId} was created successfully!`,
                 type: "success"
             });
             
@@ -59,11 +68,21 @@ function CreateMonster() {
         }
     };
 
+    // Custom file upload handler using FileReader API
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Create Monster</h1>
-            
-           
             
             <div className={styles.previewContainer}>
                 <h3 className={styles.previewTitle}>Preview Data:</h3>
@@ -73,24 +92,30 @@ function CreateMonster() {
             </div>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>Name:</label>
+                    <label className={styles.label}>Monster ID:</label>
                     <input
                         className={styles.input}
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={monsterId}
+                        onChange={(e) => setMonsterId(e.target.value)}
                         required
                     />
-                </div>  
+                </div>
 
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>Level:</label>
-                    <input
+                    <label className={styles.label}>Type:</label>
+                    <select
                         className={styles.input}
-                        type="number"
-                        value={level}
-                        onChange={(e) => setLevel(Number(e.target.value))}          
-                    />
+                        value={typeOne}
+                        onChange={(e) => setTypeOne(e.target.value)}          
+                    >
+                        <option value="NORMAL">NORMAL</option>
+                        <option value="FIRE">FIRE</option>
+                        <option value="WATER">WATER</option>
+                        <option value="ELECTRIC">ELECTRIC</option>
+                        <option value="GRASS">GRASS</option>
+                        {/* Add more types as needed */}
+                    </select>
                 </div>
 
                 <div className={styles.formGroup}>
@@ -147,14 +172,36 @@ function CreateMonster() {
                         onChange={(e) => setSpeed(Number(e.target.value))}
                     />
                 </div>
+
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Monster Image:</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className={styles.input}
+                    />
+                </div>
+
+                {image && (
+                    <div className={styles.imagePreview}>
+                        <h4>Image Preview:</h4>
+                        <img 
+                            src={image} 
+                            alt="Monster preview" 
+                            className={styles.previewImage}
+                            style={{ maxWidth: '200px', maxHeight: '200px' }}
+                        />
+                    </div>
+                )}
+
                 <button type="submit" className={styles.button}>Create Monster</button>
 
-                 {/* Notification component */}
-                    {notification.show && (
-                        <div className={`${styles.notification} ${styles[notification.type]}`}>
-                            {notification.message}
-                        </div>
-                    )}
+                {notification.show && (
+                    <div className={`${styles.notification} ${styles[notification.type]}`}>
+                        {notification.message}
+                    </div>
+                )}
             </form>
         </div>
     );
