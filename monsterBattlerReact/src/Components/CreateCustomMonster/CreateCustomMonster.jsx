@@ -54,7 +54,7 @@ function CreateCustomMonster() {
             return;
         }
 
-        // Create the payload using the base monster's properties and custom properties
+        // Created the payload using the base monster's properties and custom properties
         const payload = {
             baseMonster: baseMonster.monsterId,
             name: baseMonster.monsterId,
@@ -74,6 +74,7 @@ function CreateCustomMonster() {
             rangedDefenseStage: rangedDefenseStage,
             speedStage: speedStage,
             evasionStage: evasionStage,
+            
             effortStats: effortStats,
             potentialStats: potentialStats,
             activeAttacks: activeAttacks

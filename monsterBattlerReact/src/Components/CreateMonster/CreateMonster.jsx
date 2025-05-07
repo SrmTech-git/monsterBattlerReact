@@ -82,7 +82,7 @@ function CreateMonster() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Create Monster</h1>
+            <h1 className={styles.title}>Create a Base Monster</h1>
             
             <div className={styles.previewContainer}>
                 <h3 className={styles.previewTitle}>Preview Data:</h3>
@@ -92,7 +92,7 @@ function CreateMonster() {
             </div>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>Monster ID:</label>
+                    <label className={styles.label}>Name: </label>
                     <input
                         className={styles.input}
                         type="text"
