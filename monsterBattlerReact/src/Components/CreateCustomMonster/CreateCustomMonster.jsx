@@ -11,15 +11,18 @@ function CreateCustomMonster() {
     const [searchResult, setSearchResult] = useState(null);
     
     // Custom monster fields
+    // private String monsterId;
+    // private String name;
+    // private int level;
+    // private Nature nature;
+    // private List<String> abilities = new ArrayList<>();
+    // private EffortStats effortStats;
+    // private PotentialStats potentialStats;
+    // List<String> attackIds = new ArrayList<>()
     const [level, setLevel] = useState(1);
-    const [nature, setNature] = useState("NEUTRAL");
+    const [nature, setNature] = useState("HARDY");
     const [abilities, setAbilities] = useState([]);
-    const [physicalAttackStage, setPhysicalAttackStage] = useState(0);
-    const [rangedAttackStage, setRangedAttackStage] = useState(0);
-    const [physicalDefenseStage, setPhysicalDefenseStage] = useState(0);
-    const [rangedDefenseStage, setRangedDefenseStage] = useState(0);
-    const [speedStage, setSpeedStage] = useState(0);
-    const [evasionStage, setEvasionStage] = useState(0);
+
     const [effortStats, setEffortStats] = useState({
         health: 0,
         physicalAttack: 0,
@@ -54,27 +57,14 @@ function CreateCustomMonster() {
             return;
         }
 
-        // Created the payload using the base monster's properties and custom properties
+        // Create the payload using the base monster's properties and custom properties
+        // Adjusted to match the example payload structure
         const payload = {
-            baseMonster: baseMonster.monsterId,
-            name: baseMonster.monsterId,
+            monsterId: baseMonster.monsterId,
+            name: baseMonster.monsterId, // Using monsterId as name per requirements
             level: level,
             nature: nature,
             abilities: abilities,
-            currentHealth: baseMonster.baseStats.health,
-            startingHealth: baseMonster.baseStats.health,
-            physicalAttack: baseMonster.baseStats.physicalAttack,
-            rangedAttack: baseMonster.baseStats.rangedAttack,
-            physicalDefense: baseMonster.baseStats.physicalDefense,
-            rangedDefense: baseMonster.baseStats.rangedDefense,
-            speed: baseMonster.baseStats.speed,
-            physicalAttackStage: physicalAttackStage,
-            rangedAttackStage: rangedAttackStage,
-            physicalDefenseStage: physicalDefenseStage,
-            rangedDefenseStage: rangedDefenseStage,
-            speedStage: speedStage,
-            evasionStage: evasionStage,
-            
             effortStats: effortStats,
             potentialStats: potentialStats,
             activeAttacks: activeAttacks
@@ -110,7 +100,7 @@ function CreateCustomMonster() {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/monsters/base/search/${searchName}`);
+            const response = await axios.get(`http://localhost:8080/monsters/base/search?monsterId=${searchName}`);
             setSearchResult(response.data);
         } catch (error) {
             console.error("Error fetching monster:", error);
@@ -146,17 +136,17 @@ function CreateCustomMonster() {
             {searchResult && (
                 <div className={styles.searchResult}>
                     <h3>Search Results:</h3>
-                    {searchResult.map((monster) => (
-                        <div key={monster.id} className={styles.monsterCard}>
-                            <MonsterDisplay monster={monster} />
+                    
+                        <div key={searchResult.id} className={styles.monsterCard}>
+                            <MonsterDisplay monster={searchResult} />
                             <button
                                 className={styles.button}
-                                onClick={() => handleSelectMonster(monster)}
+                                onClick={() => handleSelectMonster(searchResult)}
                             >
                                 Select Monster
                             </button>
                         </div>
-                    ))}
+                    
                 </div>
             )}
 
@@ -251,90 +241,35 @@ function CreateCustomMonster() {
                                 value={nature}
                                 onChange={(e) => setNature(e.target.value)}
                             >
-                                <option value="NEUTRAL">NEUTRAL</option>
-                                <option value="BRAVE">BRAVE</option>
-                                <option value="TIMID">TIMID</option>
-                                <option value="CALM">CALM</option>
+                                <option value="ADAMANT">ADAMANT</option>
+                                <option value="BASHFUL">BASHFUL</option>
                                 <option value="BOLD">BOLD</option>
+                                <option value="BRAVE">BRAVE</option>
+                                <option value="CALM">CALM</option>
+                                <option value="CAREFUL">CAREFUL</option>
+                                <option value="DOCILE">DOCILE</option>
+                                <option value="GENTLE">GENTLE</option>
+                                <option value="HARDY">HARDY</option>
                                 <option value="HASTY">HASTY</option>
-                                {/* Add more natures as needed */}
+                                <option value="IMPISH">IMPISH</option>
+                                <option value="JOLLY">JOLLY</option>
+                                <option value="LAX">LAX</option>
+                                <option value="LONELY">LONELY</option>
+                                <option value="MILD">MILD</option>
+                                <option value="MODEST">MODEST</option>
+                                <option value="NAIVE">NAIVE</option>
+                                <option value="NAUGHTY">NAUGHTY</option>
+                                <option value="QUIET">QUIET</option>
+                                <option value="QUIRKY">QUIRKY</option>
+                                <option value="RASH">RASH</option>
+                                <option value="RELAXED">RELAXED</option>
+                                <option value="SASSY">SASSY</option>
+                                <option value="SERIOUS">SERIOUS</option>
+                                <option value="TIMID">TIMID</option>
                             </select>
                         </div>
                         
-                        <h4>Stat Stages</h4>
-                        <div className={styles.stagesContainer}>
-                            <div className={styles.formGroup}>
-                                <label className={styles.label}>Physical Attack Stage:</label>
-                                <input
-                                    className={styles.input}
-                                    type="number"
-                                    min="-6"
-                                    max="6"
-                                    value={physicalAttackStage}
-                                    onChange={(e) => setPhysicalAttackStage(Number(e.target.value))}
-                                />
-                            </div>
-                            
-                            <div className={styles.formGroup}>
-                                <label className={styles.label}>Ranged Attack Stage:</label>
-                                <input
-                                    className={styles.input}
-                                    type="number"
-                                    min="-6"
-                                    max="6"
-                                    value={rangedAttackStage}
-                                    onChange={(e) => setRangedAttackStage(Number(e.target.value))}
-                                />
-                            </div>
-                            
-                            <div className={styles.formGroup}>
-                                <label className={styles.label}>Physical Defense Stage:</label>
-                                <input
-                                    className={styles.input}
-                                    type="number"
-                                    min="-6"
-                                    max="6"
-                                    value={physicalDefenseStage}
-                                    onChange={(e) => setPhysicalDefenseStage(Number(e.target.value))}
-                                />
-                            </div>
-                            
-                            <div className={styles.formGroup}>
-                                <label className={styles.label}>Ranged Defense Stage:</label>
-                                <input
-                                    className={styles.input}
-                                    type="number"
-                                    min="-6"
-                                    max="6"
-                                    value={rangedDefenseStage}
-                                    onChange={(e) => setRangedDefenseStage(Number(e.target.value))}
-                                />
-                            </div>
-                            
-                            <div className={styles.formGroup}>
-                                <label className={styles.label}>Speed Stage:</label>
-                                <input
-                                    className={styles.input}
-                                    type="number"
-                                    min="-6"
-                                    max="6"
-                                    value={speedStage}
-                                    onChange={(e) => setSpeedStage(Number(e.target.value))}
-                                />
-                            </div>
-                            
-                            <div className={styles.formGroup}>
-                                <label className={styles.label}>Evasion Stage:</label>
-                                <input
-                                    className={styles.input}
-                                    type="number"
-                                    min="-6"
-                                    max="6"
-                                    value={evasionStage}
-                                    onChange={(e) => setEvasionStage(Number(e.target.value))}
-                                />
-                            </div>
-                        </div>
+
                         
                         <h4>Effort Stats</h4>
                         <div className={styles.effortStatsContainer}>
@@ -486,9 +421,6 @@ function CreateCustomMonster() {
                             </div>
                         </div>
                         
-                        {/* Note: For abilities and active attacks, you might want to implement
-                            a more complex UI with a multi-select or add/remove functionality.
-                            This is a simplified version. */}
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Abilities (comma-separated):</label>
                             <input

@@ -109,12 +109,24 @@ function CreateMonster() {
                         value={typeOne}
                         onChange={(e) => setTypeOne(e.target.value)}          
                     >
-                        <option value="NORMAL">NORMAL</option>
-                        <option value="FIRE">FIRE</option>
+                        <option value="AIR">AIR</option>
                         <option value="WATER">WATER</option>
+                        <option value="FIRE">FIRE</option>
+                        <option value="EARTH">EARTH</option>
+                        <option value="PLANT">PLANT</option>
+                        <option value="BUG">BUG</option>
+                        <option value="DARK">DARK</option>
+                        <option value="LIGHT">LIGHT</option>
+                        <option value="GHOST">GHOST</option>
+                        <option value="NORMAL">NORMAL</option>
+                        <option value="ROCK">ROCK</option>
                         <option value="ELECTRIC">ELECTRIC</option>
-                        <option value="GRASS">GRASS</option>
-                        {/* Add more types as needed */}
+                        <option value="DRAGON">DRAGON</option>
+                        <option value="PSYCHIC">PSYCHIC</option>
+                        <option value="FIGHTING">FIGHTING</option>
+                        <option value="METAL">METAL</option>
+                        <option value="TOXIC">TOXIC</option>
+                        <option value="ICE">ICE</option>
                     </select>
                 </div>
 

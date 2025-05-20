@@ -14,7 +14,7 @@ function MonsterPage() {
     useEffect(() => {
         const fetchAllMonsters = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/monsters/base');
+                const response = await axios.get('http://localhost:8080/monsters');
                 setAllMonsters(response.data.slice(0, 25)); // This will take only the first 10 monsters
             } catch (error) {
                 console.error("Error fetching monsters:", error);
