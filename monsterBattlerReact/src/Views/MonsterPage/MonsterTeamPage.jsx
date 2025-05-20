@@ -2,27 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './MonsterPage.module.css'; 
 import axios from 'axios';
-import MonsterDisplay from '../../Components/MonsterDisplay/MonsterDisplay';
+import CustomMonsterDisplay from '../../Components/MonsterDisplay/CustomMonsterDisplay';
 
 function MonsterPage() {
     const [teamMonsters, setTeamMonsters] = useState([]);
     const [allMonsters, setAllMonsters] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const [teamName, setTeamName] = useState('');
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [saveError, setSaveError] = useState('');
 
     useEffect(() => {
-        const fetchAllMonsters = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/monsters');
-                setAllMonsters(response.data.slice(0, 25)); // This will take only the first 10 monsters
-            } catch (error) {
-                console.error("Error fetching monsters:", error);
-            }
-        };
-    
         fetchAllMonsters();
     }, []);
+
+    async function fetchAllMonsters() {
+        try {
+            const response = await axios.get('http://localhost:8080/monsters/custom');
+            setAllMonsters(response.data.slice(0, 25)); // This will take only the first 25 monsters
+            setSearchResults([]); // Clear search results when showing all monsters
+        } catch (error) {
+            console.error("Error fetching monsters:", error);
+        }
+    }
+
+    async function fetchSearchMonsters(searchTerm) {
+        try {
+            console.log("Searching for monsters with term:", searchTerm);
+            const response = await axios.get(`http://localhost:8080/monsters/custom/search?name=${searchTerm}&monsterId=${searchTerm}`);
+            console.log("Search response:", response.data);
+            
+            // Check if the response is an array or a single object
+            if (Array.isArray(response.data)) {
+                setSearchResults(response.data);
+            } else if (response.data && typeof response.data === 'object') {
+                // If it's a single object, wrap it in an array
+                setSearchResults([response.data]);
+            } else {
+                // Empty array if no results or invalid data
+                setSearchResults([]);
+            }
+        } catch (error) {
+            console.error("Error fetching monsters:", error);
+            setSearchResults([]);
+        }
+    }
 
     function handleMonsterClick(monster) {
         // Check if the monster is already in the team using filter
@@ -112,7 +137,7 @@ function MonsterPage() {
                                     >
                                         ✕
                                     </button>
-                                    <MonsterDisplay monster={monster} />
+                                    <CustomMonsterDisplay  monster={monster} handleMonsterClick={null} canChoose={false} />
                                 </div>
                             ))}
                         </div>
@@ -144,18 +169,56 @@ function MonsterPage() {
             </div>
 
             <div className={styles.monsterListContainer}>
+                <input 
+                    value={searchTerm} 
+                    onChange={(e) => setSearchTerm(e.target.value.toLocaleUpperCase())} 
+                    placeholder='Search Custom Monsters'
+                />
+                <button onClick={() => fetchSearchMonsters(searchTerm)}>Search</button>
+                <button onClick={() => {
+                    // Reset search term and fetch original monsters
+                    setSearchTerm('');
+                    fetchAllMonsters();
+                }}>Reset</button> 
                 <h1>Pick your monster</h1>
-                {allMonsters.length > 0 ? (
+
+                {searchResults.length > 0 && (
+                    <div className={styles.searchResults}>  
+                        {Array.isArray(searchResults) ? (
+                            // If searchResults is an array, map through it
+                            searchResults.map((monster, index) => (
+                                <div key={index}>
+                                    <CustomMonsterDisplay 
+                                        teamMonsters={teamMonsters} 
+                                        monster={monster} 
+                                        handleMonsterClick={handleMonsterClick} 
+                                        canChoose={true} 
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            // If searchResults is a single object, render just one component
+                            <CustomMonsterDisplay 
+                                teamMonsters={teamMonsters} 
+                                monster={searchResults} 
+                                handleMonsterClick={handleMonsterClick} 
+                                canChoose={true} 
+                            />
+                        )}
+                    </div>
+                )}
+
+                {(allMonsters.length > 0 && searchResults.length === 0) ? (
                     <div className={styles.monsterList}>
                         {allMonsters.map((monster, index) => (
                             <div key={index}>
-                                <MonsterDisplay teamMonsters ={teamMonsters} monster={monster} handleMonsterClick={handleMonsterClick} canChoose={true} />
+                                <CustomMonsterDisplay teamMonsters={teamMonsters} monster={monster} handleMonsterClick={handleMonsterClick} canChoose={true} />
                             </div>
                         ))}
                     </div>
                 ) : (
                     <div className={styles.emptyState}>
-                        Loading monsters...
+                        {allMonsters.length === 0 && "Loading monsters..."}
                     </div>
                 )}
             </div>
