@@ -10,18 +10,18 @@ function CreateCustomMonster() {
     const [notification, setNotification] = useState({ show: false, message: "", type: "" });
     const [searchResult, setSearchResult] = useState(null);
     
-    // Custom monster fields
-    // private String monsterId;
-    // private String name;
-    // private int level;
-    // private Nature nature;
-    // private List<String> abilities = new ArrayList<>();
-    // private EffortStats effortStats;
-    // private PotentialStats potentialStats;
-    // List<String> attackIds = new ArrayList<>()
+
     const [level, setLevel] = useState(1);
     const [nature, setNature] = useState("HARDY");
     const [abilities, setAbilities] = useState([]);
+    const [baseStats, setBaseStats] = useState({
+        rangedDefense: baseMonster ? baseMonster.baseStats.rangedDefense : 0,
+        health: baseMonster ? baseMonster.baseStats.health : 0,
+        rangedAttack: baseMonster ? baseMonster.baseStats.rangedAttack : 0, 
+        physicalDefense: baseMonster ? baseMonster.baseStats.physicalDefense : 0,
+        physicalAttack: baseMonster ? baseMonster.baseStats.physicalAttack : 0, 
+        speed: baseMonster ? baseMonster.baseStats.speed : 0
+    });
 
     const [effortStats, setEffortStats] = useState({
         health: 0,
@@ -63,9 +63,11 @@ function CreateCustomMonster() {
             monsterId: baseMonster.monsterId,
             name: baseMonster.monsterId, // Using monsterId as name per requirements
             level: level,
+            base64Image: baseMonster.base64Image,
             nature: nature,
             abilities: abilities,
             effortStats: effortStats,
+            baseStats: baseStats,
             potentialStats: potentialStats,
             activeAttacks: activeAttacks
         };

@@ -43,12 +43,12 @@ const CustomMonsterDisplay = ({ teamMonsters, monster, handleMonsterClick, canCh
             </div>
             <p className={styles.stat}>Level: {monster.level}</p>
             <p className={styles.stat}>Nature: {monster.nature}</p>
-            <p className={styles.stat}>Health: {monster.currentHealth} / {monster.startingHealth}</p>
-            <p className={styles.stat}>Physical Attack: {monster.physicalAttack} (Stage: {monster.physicalAttackStage})</p>
-            <p className={styles.stat}>Ranged Attack: {monster.rangedAttack} (Stage: {monster.rangedAttackStage})</p>
-            <p className={styles.stat}>Physical Defense: {monster.physicalDefense} (Stage: {monster.physicalDefenseStage})</p>
-            <p className={styles.stat}>Ranged Defense: {monster.rangedDefense} (Stage: {monster.rangedDefenseStage})</p>
-            <p className={styles.stat}>Speed: {monster.speed} (Stage: {monster.speedStage})</p>
+            <p className={styles.stat}>Health: {monster.baseStats.health} </p>
+            <p className={styles.stat}>Physical Attack: {monster.baseStats.physicalAttack} </p>
+            <p className={styles.stat}>Ranged Attack: {monster.baseStats.rangedAttack} </p>
+            <p className={styles.stat}>Physical Defense: {monster.baseStats.physicalDefense} </p>
+            <p className={styles.stat}>Ranged Defense: {monster.baseStats.rangedDefense} </p>
+            <p className={styles.stat}>Speed: {monster.baseStats.speed} </p>
             <p className={styles.stat}>Evasion Stage: {monster.evasionStage}</p>
             
             <h3 className={styles.statHeader}>Effort Stats</h3>
