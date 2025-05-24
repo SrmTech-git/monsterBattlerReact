@@ -34,6 +34,8 @@ function BattlePage() {
             console.log('Battle started:', battleResponse.data);
             
             setBattleData(battleResponse.data);
+            setLeadMonster(battleResponse.data.playerOneTeam.leadMonster);
+            console.log('leadMonster:', battleResponse.data.playerOneTeam.leadMonster);
             return battleResponse.data;
             
         } catch (error) {
@@ -58,10 +60,9 @@ function BattlePage() {
     };
 
     const handleLeadChange = (monster) => { 
-      setLeadMonster(monster);
-      console.log('Lead monster changed:', monster.name);
+        setLeadMonster(monster);
+        console.log('Lead monster changed:', monster.name);
     }
-
 
     if (teamMonsters.length === 0) {
         return <div>No team selected. Please go back and select your monsters.</div>;
@@ -83,23 +84,27 @@ function BattlePage() {
                     <div className='ourTeam'>
                         <h2>Your Team:</h2>
                         {Object.values(battleData.playerOneTeam.monsterMap).map((monster, index) => (
-                            <DisplayBattleMonster monster={monster} handleLeadChange={handleLeadChange}/>
+                            <DisplayBattleMonster 
+                                key={index}
+                                monster={monster} 
+                                handleLeadChange={handleLeadChange}
+                            />
                         ))}
                     </div>
                     
                     <div>
                         <h2>Battle Started!</h2>
-                        <p>Lead Monster: {battleData.playerOneTeam.leadMonster.name}</p>
+                        <p>Lead Monster: {(leadMonster || battleData.playerOneTeam.leadMonster).name}</p>
                         {chosenAttack && <p>Selected Attack: {chosenAttack.displayName}</p>}
                     </div>
                     
                     <div>
                         <h2>Choose your attack:</h2>
-                        {Object.values(battleData.playerOneTeam.leadMonster.activeAttacks).map((attack, index) => (
+                        {Object.values((leadMonster || battleData.playerOneTeam.leadMonster).activeAttacks).map((attack, index) => (
                             <button 
                                 key={index} 
                                 onClick={() => chooseAttack(attack)}
-                                className={chosenAttack === attack.attackId ? 'selected' : ''}
+                                className={chosenAttack?.attackId === attack.attackId ? 'selected' : ''}
                             >
                                 <div>{attack.displayName}</div>
                                 <div>Power: {attack.power} | Accuracy: {attack.accuracy}%</div>

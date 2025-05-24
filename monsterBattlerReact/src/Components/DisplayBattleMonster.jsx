@@ -17,8 +17,8 @@ const DisplayBattleMonster = ({ monster, handleLeadChange }) => {
                 Health: {monster.currentHealth} / {monster.startingHealth}
             </p>
 
-            <button onClick={handleLeadChange(monster)}>Switch to {monster.name}</button>
-            
+            <button onClick={() => handleLeadChange(monster)}>Switch to {monster.name}</button>
+
             <button onClick={toggleExpanded}>
                 {isExpanded ? 'Hide Details' : 'Show Details'}
             </button>
