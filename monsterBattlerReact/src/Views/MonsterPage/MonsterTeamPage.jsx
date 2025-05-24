@@ -49,24 +49,32 @@ function MonsterPage() {
         }
     }
 
-    function handleMonsterClick(monster) {
-        // Check if the monster is already in the team using filter
-        const existingMonsters = teamMonsters.filter(teamMonster => teamMonster.monsterId === monster.monsterId);
+   function handleMonsterClick(monster) {
+    setTeamMonsters((prevMonsters) => {
+        // Use prevMonsters (the current state) for all checks
+        const existingMonsters = prevMonsters.filter(teamMonster => teamMonster.monsterId === monster.monsterId);
         
         if (existingMonsters.length > 0) {
-          alert("This monster is already on your team.");
-          return;
+            alert("This monster is already on your team.");
+            return prevMonsters; // Return current state unchanged
         }
         
-        if (teamMonsters.length < 3) {
-          setTeamMonsters((prevMonsters) => [...prevMonsters, monster]);
-          // Reset any previous save status messages
-          setSaveSuccess(false);
-          setSaveError('');
+        if (prevMonsters.length < 3) {
+            console.log("Adding monster:", monster.name || monster.monsterId);
+            console.log("Previous team size:", prevMonsters.length);
+            const newTeam = [...prevMonsters, monster];
+            console.log("New team size:", newTeam.length);
+            return newTeam;
         } else {
-          alert("You can only have 3 monsters in your team.");
+            alert("You can only have 3 monsters in your team.");
+            return prevMonsters; // Return current state unchanged
         }
-    }
+    });
+    
+    // Reset save status (moved outside the setState)
+    setSaveSuccess(false);
+    setSaveError('');
+}
 
     async function handleSaveTeam() {
         // Check if we have any monsters in the team
@@ -88,13 +96,7 @@ function MonsterPage() {
                 monsters: teamMonsters.map(monster => monster.id) // We'll just send the IDs
             };
 
-            // Make the POST request to save the team
-            const response = await axios.post('http://localhost:8080/teams', payload);
-            console.log("Team saved successfully:", response.data);
-            
-            // Show success message
-            setSaveSuccess(true);
-            setSaveError('');
+           
             
         } catch (error) {
             console.error("Error saving team:", error);
@@ -224,7 +226,11 @@ function MonsterPage() {
             </div>
 
             <div className={styles.battleLinkContainer}>
-                <Link to="/battle" className={styles.battleLink}>
+                <Link 
+                    to="/battle" 
+                    state={{ teamMonsters: teamMonsters }}
+                    className={styles.battleLink}
+                >
                     Battle Arena
                 </Link>
             </div>
