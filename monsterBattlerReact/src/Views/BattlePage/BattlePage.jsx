@@ -13,6 +13,7 @@ function BattlePage() {
     const [chosenAttack, setChosenAttack] = useState(null);
     const [leadMonster, setLeadMonster] = useState(null);
     const [isTakingTurn, setIsTakingTurn] = useState(false);
+    const [isSwitching, setIsSwitching  ] = useState(false);
 
     const shortTeamMonsters = teamMonsters.map(monster => ({
         monsterId: monster.monsterId,
@@ -62,60 +63,76 @@ function BattlePage() {
 
     const handleLeadChange = (monster) => { 
         setLeadMonster(monster);
+        setIsSwitching(true);
         setChosenAttack(null); // Reset chosen attack when changing lead
         console.log('Lead monster changed:', monster.name);
     };
 
     const handleTakeTurn = async () => {
-        if (!chosenAttack) {
-            alert('Please choose an attack first!');
-            return;
-        }
-
-        setIsTakingTurn(true);
-        setError(null);
-
-        try {
-            // Create the battle state to send to the backend
-            const battleState = {
-                ...battleData,
-                playerAction: {
-                    type: 'ATTACK',
-                    attack: chosenAttack,
-                    // If you've changed the lead monster, include that information
-                    leadMonster: leadMonster || battleData.playerOneTeam.leadMonster
-                }
-            };
-
-            console.log('Sending battle state:', battleState);
-
-            // Send the turn to the backend
-            const response = await axios.post(
-                'http://localhost:8080/takeTurn', // Adjust endpoint as needed
-                battleState
-            );
-
-            console.log('Turn result:', response.data);
-
-            // Update the battle data with the new state
-            setBattleData(response.data);
-            
-            // Reset chosen attack for next turn
-            setChosenAttack(null);
-            
-            // If the lead monster changed in the response, update it
-            if (response.data.playerOneTeam.leadMonster.monsterId !== 
-                (leadMonster || battleData.playerOneTeam.leadMonster).monsterId) {
-                setLeadMonster(response.data.playerOneTeam.leadMonster);
+            if (!chosenAttack) {
+                alert('Please choose an attack first!');
+                return;
             }
 
-        } catch (error) {
-            console.error('Error taking turn:', error);
-            setError(error.message);
-        } finally {
-            setIsTakingTurn(false);
-        }
-    };
+            setIsTakingTurn(true);
+            setError(null);
+
+            try {
+                // Find the attack key from the current lead monster's activeAttacks
+                const currentLead = leadMonster || battleData.playerOneTeam.leadMonster;
+                const attackKey = Object.keys(currentLead.activeAttacks).find(
+                    key => currentLead.activeAttacks[key].attackId === chosenAttack.attackId
+                );
+
+                // Find the active monster key (index in monsterMap)
+                const activeMonsterKey = Object.keys(battleData.playerOneTeam.monsterMap).find(
+                    key => battleData.playerOneTeam.monsterMap[key].monsterId === currentLead.monsterId
+                );
+
+                // Create the battle state in the expected format
+                const battleState = {
+                    playerOneActiveMonsterKey: parseInt(activeMonsterKey),
+                    playerTwoActiveMonsterKey: 1, // Assuming opponent's active monster key
+                    playerOneChosenAttackKey: parseInt(attackKey),
+                    playerTwoChosenAttackKey: 0, // Will be determined by AI
+                    playerOneSwitch: isSwitching,
+                    playerTwoSwitch: false,
+                    previousBattleState: {
+                        playerOneTeam: battleData.playerOneTeam,
+                        playerTwoTeam: battleData.playerTwoTeam,
+                        hazards: battleData.hazards || []
+                    }
+                };
+
+                console.log('Sending battle state:', battleState);
+
+                // Send the turn to the backend
+                const response = await axios.post(
+                    'http://localhost:8080/takeTurn',
+                    battleState
+                );
+
+                console.log('Turn result:', response.data);
+
+                // Update the battle data with the new state
+                setBattleData(response.data);
+                
+                // Reset states for next turn
+                setChosenAttack(null);
+                setIsSwitching(false);
+                
+                // Update lead monster if it changed
+                if (response.data.playerOneTeam.leadMonster.monsterId !== currentLead.monsterId) {
+                    setLeadMonster(response.data.playerOneTeam.leadMonster);
+                }
+
+            } catch (error) {
+                console.error('Error taking turn:', error);
+                setError(error.message);
+            } finally {
+                setIsTakingTurn(false);
+            }
+        };
 
     if (teamMonsters.length === 0) {
         return <div>No team selected. Please go back and select your monsters.</div>;
