@@ -27,11 +27,11 @@ function App() {
       <div className='app-main'>
         <Routes>
 
-          <Route path='/' element={<HomePage />} />
-          <Route path='/create' element={<CreateMonster/>} />
-          <Route path='/create-custom' element={<CreateCustomMonster/>} />
-          <Route path='/battle' element={<BattlePage/>} />
-          <Route path='/team' element={<MonsterPage/>} />
+          <Route path='/monsterBattlerReact/' element={<HomePage />} />
+          <Route path='/monsterBattlerReact/create' element={<CreateMonster/>} />
+          <Route path='/monsterBattlerReact/create-custom' element={<CreateCustomMonster/>} />
+          <Route path='/monsterBattlerReact/battle' element={<BattlePage/>} />
+          <Route path='/monsterBattlerReact/team' element={<MonsterPage/>} />
           
         </Routes>
       </div>
