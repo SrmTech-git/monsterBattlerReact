@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/monsterBattlerReact/static/css/main.255e8c0f.css",
+    "main.js": "/monsterBattlerReact/static/js/main.c09ec197.js",
+    "index.html": "/monsterBattlerReact/index.html",
+    "main.255e8c0f.css.map": "/monsterBattlerReact/static/css/main.255e8c0f.css.map",
+    "main.c09ec197.js.map": "/monsterBattlerReact/static/js/main.c09ec197.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.255e8c0f.css",
+    "static/js/main.c09ec197.js"
+  ]
+}
