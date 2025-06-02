@@ -21,19 +21,19 @@ function MainNav() {
             
             <ul className={`${styles.menu} ${menuOpen ? styles.menuOpen : ''}`}>
                 <li className={styles.menuItem}>
-                    <a href="/" className={styles.navLink}>Home</a>
+                    <a href="/monsterBattlerReact/" className={styles.navLink}>Home</a>
                 </li>
                 <li className={styles.menuItem}>
-                    <a href="/create" className={styles.navLink}>Base Monster</a>
+                    <a href="/monsterBattlerReact/create" className={styles.navLink}>Base Monster</a>
                 </li>
                 <li className={styles.menuItem}>
-                    <a href="/create-custom" className={styles.navLink}>Custom Monster</a>
+                    <a href="/monsterBattlerReact/create-custom" className={styles.navLink}>Custom Monster</a>
                 </li>
                 <li className={styles.menuItem}>
-                    <a href="/team" className={styles.navLink}>Pick Team</a>
+                    <a href="/monsterBattlerReact/team" className={styles.navLink}>Pick Team</a>
                 </li>
                 <li className={styles.menuItem}>
-                    <a href="/battle" className={styles.navLink}>Battle</a>
+                    <a href="/monsterBattlerReact/battle" className={styles.navLink}>Battle</a>
                 </li>
             </ul>
         </nav>
