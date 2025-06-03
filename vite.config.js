@@ -4,16 +4,6 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
-  esbuild: {
-    loader: 'jsx',
-  },
   mode: "production",
-   base: "/monsterBattlerReact/",
-   build: {
-    outDir: "build",
-    assetsDir: "static"
-  }
+  base: "/monsterBattlerReact/"
 })
